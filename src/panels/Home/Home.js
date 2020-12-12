@@ -6,14 +6,8 @@ import Cell from '@vkontakte/vkui/dist/components/Cell/Cell';
 import Avatar from '@vkontakte/vkui/dist/components/Avatar/Avatar';
 import Header from '@vkontakte/vkui/dist/components/Header/Header';
 import RichCell from '@vkontakte/vkui/dist/components/RichCell/RichCell';
-import Div from '@vkontakte/vkui/dist/components/Div/Div';
-import Button from '@vkontakte/vkui/dist/components/Button/Button';
-import FixedLayout from '@vkontakte/vkui/dist/components/FixedLayout/FixedLayout';
-import Icon20StatisticsOutline from '@vkontakte/icons/dist/20/statistics_outline';
-import Icon20HomeOutline from '@vkontakte/icons/dist/20/home_outline';
-import Icon20GearOutline from '@vkontakte/icons/dist/20/gear_outline';
 
-const Home = ({ id, fetchedUser, changePanel, ROUTES }) => (
+const Home = ({ id, fetchedUser }) => (
 	<Panel id={id}>
 		<PanelHeader>Главный экран</PanelHeader>
 		{fetchedUser &&
@@ -40,32 +34,6 @@ const Home = ({ id, fetchedUser, changePanel, ROUTES }) => (
 				Репост
 			</RichCell>
 		</Group>
-
-		<FixedLayout vertical="bottom">
-			<Div className='tab-navigator'>
-				<Button mode='tertiary' onClick={() => changePanel(ROUTES.RATING)}>
-					<Icon20StatisticsOutline
-						width='24'
-						height='24'
-						className='tab-navigator__icon'
-					/>
-				</Button>
-				<Button mode='tertiary' onClick={() => changePanel(ROUTES.HOME)}>
-					<Icon20HomeOutline
-						width='24'
-						height='24'
-						className='tab-navigator__icon tab-navigator__icon--active'
-					/>
-				</Button>
-				<Button mode='tertiary' onClick={() => changePanel(ROUTES.SETTINGS)}>
-					<Icon20GearOutline
-						width='24'
-						height='24'
-						className='tab-navigator__icon'
-					/>
-				</Button>
-			</Div>
-		</FixedLayout>
 	</Panel>
 );
 

@@ -1,7 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import bridge from '@vkontakte/vk-bridge';
 import View from '@vkontakte/vkui/dist/components/View/View';
-import ScreenSpinner from '@vkontakte/vkui/dist/components/ScreenSpinner/ScreenSpinner';
+import Epic from '@vkontakte/vkui/dist/components/Epic/Epic';
+import Tabbar from '@vkontakte/vkui/dist/components/Tabbar/Tabbar';
+import TabbarItem from '@vkontakte/vkui/dist/components/TabbarItem/TabbarItem';
+import Icon20StatisticsOutline from '@vkontakte/icons/dist/20/statistics_outline';
+import Icon20GearOutline from '@vkontakte/icons/dist/20/gear_outline';
+import Icon20UserOutline from '@vkontakte/icons/dist/20/user_outline';
 import '@vkontakte/vkui/dist/vkui.css';
 import axios from 'axios';
 
@@ -9,14 +14,14 @@ import Home from './panels/Home/';
 import Welcome from './panels/Welcome/';
 import Rating from './panels/Rating/';
 import Settings from './panels/Settings/';
-
-import './styles/TabNavigator.css';
+import Loading from './panels/Loading/';
 
 const ROUTES = {
 	WELCOME: 'welcome',
 	HOME: 'home',
 	RATING: 'rating',
 	SETTINGS: 'settings',
+	LOADING: 'loading',
 }
 
 const STORAGE_KEYS = {
@@ -26,9 +31,8 @@ const STORAGE_KEYS = {
 const BACKEND_URL = 'https://8433c42d99224354aa57dea03e9fcd2e.apig.ru-moscow-1.hc.sbercloud.ru/backend/api';
 
 const App = () => {
-	const [activePanel, setActivePanel] = useState(ROUTES.WELCOME);
+	const [activeView, setActiveView] = useState(ROUTES.LOADING);
 	const [fetchedUser, setUser] = useState(null);
-	const [popout, setPopout] = useState(<ScreenSpinner size='large' />);
 
 	useEffect(() => {
 		function setAppTheme() {
@@ -57,35 +61,85 @@ const App = () => {
 				keys: Object.values(STORAGE_KEYS),
 			});
 
+			setUser(user);
 			storageData.keys.forEach(({ key, value }) => {
 				switch (key) {
 					case STORAGE_KEYS.STATUS:
 						if (value === 'visited') {
-							setActivePanel(ROUTES.HOME);
-							break;
+							setActiveView(ROUTES.HOME);
+						} else {
+							setActiveView(ROUTES.WELCOME);
 						}
-				}
-			})
 
-			setUser(user);
-			setPopout(null);
+						break;
+					default:
+						setActiveView(ROUTES.WELCOME);
+						break;
+				}
+			});
 		}
 		authUser();
 		setAppTheme();
 		fetchData();
 	}, []);
 
-	const changePanel = (panelName) => {
-		setActivePanel(panelName);
+	const changeView = (panelName) => {
+		setActiveView(panelName);
 	}
 
 	return (
-		<View activePanel={activePanel} popout={popout}>
-			<Welcome id={ROUTES.WELCOME} changePanel={changePanel} ROUTES={ROUTES} STORAGE_KEYS={STORAGE_KEYS}/>
-			<Home id={ROUTES.HOME} fetchedUser={fetchedUser} changePanel={changePanel} ROUTES={ROUTES} />
-			<Rating id={ROUTES.RATING} changePanel={changePanel} ROUTES={ROUTES} />
-			<Settings id={ROUTES.SETTINGS} changePanel={changePanel} ROUTES={ROUTES} />
-		</View>
+		<Fragment>
+			{activeView === ROUTES.LOADING && (
+				<View id={ROUTES.LOADING} activePanel='loading'>
+					<Loading id='loading' />
+				</View>
+			)}
+			{activeView === ROUTES.WELCOME && (
+				<View id={ROUTES.SETTINGS} activePanel='welcome'>
+					<Welcome id='welcome' changeView={changeView} ROUTES={ROUTES} STORAGE_KEYS={STORAGE_KEYS} />
+				</View>
+			)}
+			{activeView !== ROUTES.WELCOME && activeView !== ROUTES.LOADING && (
+				<Epic activeStory={activeView} tabbar={
+					<Tabbar>
+						<TabbarItem
+							onClick={() => changeView(ROUTES.RATING)}
+							selected={activeView === ROUTES.RATING}
+							data-story="feed"
+							text="Рейтинг"
+						>
+							<Icon20StatisticsOutline />
+						</TabbarItem>
+						<TabbarItem
+							onClick={() => changeView(ROUTES.HOME)}
+							selected={activeView === ROUTES.HOME}
+							data-story="services"
+							text="Профиль"
+						>
+							<Icon20UserOutline />
+						</TabbarItem>
+						<TabbarItem
+							onClick={() => changeView(ROUTES.SETTINGS)}
+							selected={activeView === ROUTES.SETTINGS}
+							data-story="messages"
+							text="Настройки"
+						>
+							<Icon20GearOutline />
+						</TabbarItem>
+					</Tabbar>
+				}>
+					<View id={ROUTES.RATING} activePanel='rating'>
+						<Rating id='rating' />
+					</View>
+					<View id={ROUTES.HOME} activePanel='home'>
+						<Home id='home' fetchedUser={fetchedUser} />
+					</View>
+					<View id={ROUTES.SETTINGS} activePanel='settings'>
+						<Settings id='settings' />
+					</View>
+				</Epic>
+			)}
+		</Fragment>
 	);
 }
 

@@ -10,7 +10,7 @@ import bridge from '@vkontakte/vk-bridge';
 
 import './Welcome.css';
 
-const Welcome = ({ id, changePanel, ROUTES, STORAGE_KEYS }) => {
+const Welcome = ({ id, changeView, ROUTES, STORAGE_KEYS }) => {
 
     const haveVisitedPanel = async () => {
         try {
@@ -25,11 +25,11 @@ const Welcome = ({ id, changePanel, ROUTES, STORAGE_KEYS }) => {
 
     const confirmBtnHandler = async () => {
         await haveVisitedPanel();
-        changePanel(ROUTES.HOME);
+        changeView(ROUTES.HOME);
     }
 
     return (
-        <Panel id={id}>
+        <Panel id={id} centered={true}>
             <Group title="Перейти на главный экран">
                 <Div className='welcome__content-box'>
                     <Title level="1" weight="semibold" style={{ marginBottom: 16 }}>
