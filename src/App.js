@@ -7,6 +7,7 @@ import TabbarItem from '@vkontakte/vkui/dist/components/TabbarItem/TabbarItem';
 import Icon20StatisticsOutline from '@vkontakte/icons/dist/20/statistics_outline';
 import Icon20GearOutline from '@vkontakte/icons/dist/20/gear_outline';
 import Icon20UserOutline from '@vkontakte/icons/dist/20/user_outline';
+import Icon16DonateOultine from '@vkontakte/icons/dist/16/donate_oultine';
 import '@vkontakte/vkui/dist/vkui.css';
 import axios from 'axios';
 
@@ -15,6 +16,7 @@ import Welcome from './panels/Welcome/';
 import Rating from './panels/Rating/';
 import Settings from './panels/Settings/';
 import Loading from './panels/Loading/';
+import Achievements from './panels/Achievements/';
 
 const ROUTES = {
 	WELCOME: 'welcome',
@@ -22,6 +24,7 @@ const ROUTES = {
 	RATING: 'rating',
 	SETTINGS: 'settings',
 	LOADING: 'loading',
+	ACHIEVEMENTS: 'achievements',
 }
 
 const STORAGE_KEYS = {
@@ -35,6 +38,10 @@ const App = () => {
 	const [fetchedUser, setUser] = useState(null);
 
 	useEffect(() => {
+		// bridge.send('VKWebAppStorageSet', {
+		// 	key: STORAGE_KEYS.STATUS,
+		// 	value: '',
+		// });
 		function setAppTheme() {
 			bridge.subscribe(({ detail: { type, data }}) => {
 				if (type === 'VKWebAppUpdateConfig') {
@@ -105,7 +112,6 @@ const App = () => {
 						<TabbarItem
 							onClick={() => changeView(ROUTES.RATING)}
 							selected={activeView === ROUTES.RATING}
-							data-story="feed"
 							text="Рейтинг"
 						>
 							<Icon20StatisticsOutline />
@@ -113,21 +119,29 @@ const App = () => {
 						<TabbarItem
 							onClick={() => changeView(ROUTES.HOME)}
 							selected={activeView === ROUTES.HOME}
-							data-story="services"
 							text="Профиль"
 						>
 							<Icon20UserOutline />
 						</TabbarItem>
 						<TabbarItem
+							onClick={() => changeView(ROUTES.ACHIEVEMENTS)}
+							selected={activeView === ROUTES.ACHIEVEMENTS}
+							text="Награды"
+						>
+							<Icon16DonateOultine width='20' height='20' />
+						</TabbarItem>
+						<TabbarItem
 							onClick={() => changeView(ROUTES.SETTINGS)}
 							selected={activeView === ROUTES.SETTINGS}
-							data-story="messages"
 							text="Настройки"
 						>
 							<Icon20GearOutline />
 						</TabbarItem>
 					</Tabbar>
 				}>
+					<View id={ROUTES.ACHIEVEMENTS} activePanel='achievements'>
+						<Achievements id='achievements' />
+					</View>
 					<View id={ROUTES.RATING} activePanel='rating'>
 						<Rating id='rating' />
 					</View>

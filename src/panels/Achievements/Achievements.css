@@ -1,0 +1,21 @@
+.achievements__content-box {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.achievements__achievement {
+    width: calc(50% - 15px);
+    margin-right: 30px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.achievements__achievement:nth-child(2n) {
+    margin-right: 0;
+}
+
+.achievements__achievement-img {
+    width: calc(100% - 60px);
+    margin: 0 30px 5px;
+    height: auto;
+}
