@@ -19,7 +19,7 @@ const ROUTES = {
 	SETTINGS: 'settings',
 }
 
-const BACKEND_URL = 'http://192.168.88.82:8000/api';
+const BACKEND_URL = 'https://8433c42d99224354aa57dea03e9fcd2e.apig.ru-moscow-1.hc.sbercloud.ru/backend/api';
 
 const App = () => {
 	const [activePanel, setActivePanel] = useState(ROUTES.WELCOME);
