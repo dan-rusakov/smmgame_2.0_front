@@ -3,39 +3,62 @@ import bridge from '@vkontakte/vk-bridge';
 import View from '@vkontakte/vkui/dist/components/View/View';
 import ScreenSpinner from '@vkontakte/vkui/dist/components/ScreenSpinner/ScreenSpinner';
 import '@vkontakte/vkui/dist/vkui.css';
+import axios from 'axios';
 
 import Home from './panels/Home';
-import Persik from './panels/Persik';
+import Welcome from './panels/Welcome';
+
+const ROUTES = {
+	WELCOME: 'welcome',
+	HOME: 'home',
+}
+
+const BACKEND_URL = 'http://192.168.88.82:8000/api';
 
 const App = () => {
-	const [activePanel, setActivePanel] = useState('home');
+	const [activePanel, setActivePanel] = useState(ROUTES.WELCOME);
 	const [fetchedUser, setUser] = useState(null);
 	const [popout, setPopout] = useState(<ScreenSpinner size='large' />);
 
 	useEffect(() => {
-		bridge.subscribe(({ detail: { type, data }}) => {
-			if (type === 'VKWebAppUpdateConfig') {
-				const schemeAttribute = document.createAttribute('scheme');
-				schemeAttribute.value = data.scheme ? data.scheme : 'client_light';
-				document.body.attributes.setNamedItem(schemeAttribute);
-			}
-		});
+		function setAppTheme() {
+			bridge.subscribe(({ detail: { type, data }}) => {
+				if (type === 'VKWebAppUpdateConfig') {
+					const schemeAttribute = document.createAttribute('scheme');
+					schemeAttribute.value = data.scheme ? data.scheme : 'client_light';
+					document.body.attributes.setNamedItem(schemeAttribute);
+				}
+			});
+		}
+		function authUser() {
+			const authData = window.location.search;
+
+			axios.get(BACKEND_URL + authData)
+				.then((response) => {
+					console.log(response);
+				})
+				.catch(err => {
+					console.error(err);
+				});
+		}
 		async function fetchData() {
 			const user = await bridge.send('VKWebAppGetUserInfo');
 			setUser(user);
 			setPopout(null);
 		}
+		authUser();
+		setAppTheme();
 		fetchData();
 	}, []);
 
-	const go = e => {
-		setActivePanel(e.currentTarget.dataset.to);
-	};
+	const changePanel = (panelName) => {
+		setActivePanel(panelName);
+	}
 
 	return (
 		<View activePanel={activePanel} popout={popout}>
-			<Home id='home' fetchedUser={fetchedUser} go={go} />
-			<Persik id='persik' go={go} />
+			<Welcome id={ROUTES.WELCOME} changePanel={changePanel} ROUTES={ROUTES} />
+			<Home id={ROUTES.HOME} fetchedUser={fetchedUser} />
 		</View>
 	);
 }
