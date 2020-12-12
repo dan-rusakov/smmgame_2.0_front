@@ -8,6 +8,7 @@ import axios from 'axios';
 import Home from './panels/Home/';
 import Welcome from './panels/Welcome/';
 import Rating from './panels/Rating/';
+import Settings from './panels/Settings/';
 
 import './styles/TabNavigator.css';
 
@@ -65,6 +66,7 @@ const App = () => {
 			<Welcome id={ROUTES.WELCOME} changePanel={changePanel} ROUTES={ROUTES} />
 			<Home id={ROUTES.HOME} fetchedUser={fetchedUser} changePanel={changePanel} ROUTES={ROUTES} />
 			<Rating id={ROUTES.RATING} changePanel={changePanel} ROUTES={ROUTES} />
+			<Settings id={ROUTES.SETTINGS} changePanel={changePanel} ROUTES={ROUTES} />
 		</View>
 	);
 }
