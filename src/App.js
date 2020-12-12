@@ -5,12 +5,16 @@ import ScreenSpinner from '@vkontakte/vkui/dist/components/ScreenSpinner/ScreenS
 import '@vkontakte/vkui/dist/vkui.css';
 import axios from 'axios';
 
-import Home from './panels/Home';
-import Welcome from './panels/Welcome';
+import Home from './panels/Home/';
+import Welcome from './panels/Welcome/';
+
+import './styles/TabNavigator.css';
 
 const ROUTES = {
 	WELCOME: 'welcome',
 	HOME: 'home',
+	RATING: 'rating',
+	SETTINGS: 'settings',
 }
 
 const BACKEND_URL = 'http://192.168.88.82:8000/api';
@@ -58,7 +62,7 @@ const App = () => {
 	return (
 		<View activePanel={activePanel} popout={popout}>
 			<Welcome id={ROUTES.WELCOME} changePanel={changePanel} ROUTES={ROUTES} />
-			<Home id={ROUTES.HOME} fetchedUser={fetchedUser} />
+			<Home id={ROUTES.HOME} fetchedUser={fetchedUser} changePanel={changePanel} ROUTES={ROUTES} />
 		</View>
 	);
 }

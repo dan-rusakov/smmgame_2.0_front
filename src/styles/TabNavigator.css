@@ -1,0 +1,14 @@
+.tab-navigator {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.tab-navigator__icon {
+    color: var(--tabbar_inactive_icon)
+}
+
+.tab-navigator__icon--active {
+    color: var(--tabbar_active_icon);
+}
+
