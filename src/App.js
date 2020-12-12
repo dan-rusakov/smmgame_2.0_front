@@ -19,6 +19,10 @@ const ROUTES = {
 	SETTINGS: 'settings',
 }
 
+const STORAGE_KEYS = {
+	STATUS: 'status',
+}
+
 const BACKEND_URL = 'https://8433c42d99224354aa57dea03e9fcd2e.apig.ru-moscow-1.hc.sbercloud.ru/backend/api';
 
 const App = () => {
@@ -49,6 +53,20 @@ const App = () => {
 		}
 		async function fetchData() {
 			const user = await bridge.send('VKWebAppGetUserInfo');
+			const storageData = await bridge.send('VKWebAppStorageGet', {
+				keys: Object.values(STORAGE_KEYS),
+			});
+
+			storageData.keys.forEach(({ key, value }) => {
+				switch (key) {
+					case STORAGE_KEYS.STATUS:
+						if (value === 'visited') {
+							setActivePanel(ROUTES.HOME);
+							break;
+						}
+				}
+			})
+
 			setUser(user);
 			setPopout(null);
 		}
@@ -63,7 +81,7 @@ const App = () => {
 
 	return (
 		<View activePanel={activePanel} popout={popout}>
-			<Welcome id={ROUTES.WELCOME} changePanel={changePanel} ROUTES={ROUTES} />
+			<Welcome id={ROUTES.WELCOME} changePanel={changePanel} ROUTES={ROUTES} STORAGE_KEYS={STORAGE_KEYS}/>
 			<Home id={ROUTES.HOME} fetchedUser={fetchedUser} changePanel={changePanel} ROUTES={ROUTES} />
 			<Rating id={ROUTES.RATING} changePanel={changePanel} ROUTES={ROUTES} />
 			<Settings id={ROUTES.SETTINGS} changePanel={changePanel} ROUTES={ROUTES} />
