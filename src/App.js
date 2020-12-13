@@ -137,7 +137,7 @@ const App = () => {
 						<Home id='home' fetchedUser={fetchedUser} BACKEND_URL={BACKEND_URL} />
 					</View>
 					<View id={ROUTES.SETTINGS} activePanel='settings'>
-						<Settings id='settings' />
+						<Settings id='settings' changeView={changeView} BACKEND_URL={BACKEND_URL} ROUTES={ROUTES} />
 					</View>
 				</Epic>
 			)}
