@@ -16,7 +16,7 @@ const Home = ({ id, fetchedUser, BACKEND_URL }) => {
 		axios.get(BACKEND_URL + '/score' + window.location.search)
 			.then(response => {
 				if (response.status === 200) {
-					setUserScore(response.data.data.score);
+					setUserScore(response.data.score);
 				}
 			})
 		axios.get(BACKEND_URL + '/history' + window.location.search, {
@@ -26,7 +26,7 @@ const Home = ({ id, fetchedUser, BACKEND_URL }) => {
 		})
 			.then(response => {
 				if (response.status === 200) {
-					setUserHistory(response.data.data);
+					setUserHistory(response.data);
 				}
 			})
 	}, []);
@@ -34,10 +34,11 @@ const Home = ({ id, fetchedUser, BACKEND_URL }) => {
 	const historyList = () => {
 		return userHistory.map(item => (
 			<RichCell
+				key={item.id}
 				caption=""
 				after={`+ ${item.score}`}
 			>
-				{item.activity_title}
+				{item.activity_type === 'comment' ? 'Комментарий' : 'Лайк'}
 			</RichCell>
 		));
 	}

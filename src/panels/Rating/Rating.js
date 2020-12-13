@@ -17,7 +17,7 @@ const Rating = ({ id, BACKEND_URL }) => {
             .then(response => {
                 if (response.status === 200) {
                     console.log(response)
-                    setHistory(response.data.data);
+                    setHistory(response.data);
                 }
             })
 
