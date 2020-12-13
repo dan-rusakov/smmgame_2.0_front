@@ -30,7 +30,7 @@ const STORAGE_KEYS = {
 	STATUS: 'status',
 }
 
-const BACKEND_URL = 'https://8433c42d99224354aa57dea03e9fcd2e.apig.ru-moscow-1.hc.sbercloud.ru/backend/api';
+const BACKEND_URL = 'https://hc3.smmgame.ru/backend/api';
 
 const App = () => {
 	const [activeView, setActiveView] = useState(ROUTES.LOADING);
@@ -97,6 +97,13 @@ const App = () => {
 			{activeView !== ROUTES.WELCOME && activeView !== ROUTES.LOADING && (
 				<Epic activeStory={activeView} tabbar={
 					<Tabbar>
+						<TabbarItem
+							onClick={() => changeView(ROUTES.RATING)}
+							selected={activeView === ROUTES.RATING}
+							text="Рейтинг"
+						>
+							<Icon20StatisticsOutline />
+						</TabbarItem>
 						<TabbarItem
 							onClick={() => changeView(ROUTES.HOME)}
 							selected={activeView === ROUTES.HOME}

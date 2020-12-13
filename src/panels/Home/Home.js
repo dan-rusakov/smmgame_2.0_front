@@ -21,11 +21,8 @@ const Home = ({ id, fetchedUser, BACKEND_URL }) => {
 			})
 
 		let params = new URLSearchParams(window.location.search);
-		axios.get(BACKEND_URL + '/history' + window.location.search, {
-			params: {
-				user_id: params.get('vk_user_id', 1),
-			}
-		})
+
+		axios.get(BACKEND_URL + '/history/user' + window.location.search)
 			.then(response => {
 				if (response.status === 200) {
 					setUserHistory(response.data);

@@ -13,11 +13,19 @@ const Rating = ({ id, BACKEND_URL }) => {
     const [history, setHistory] = useState([]);
 
     useEffect(() => {
-        axios.get(BACKEND_URL + '/history' + window.location.search)
+        axios.get(BACKEND_URL + '/history/group' + window.location.search)
             .then(response => {
                 if (response.status === 200) {
-                    console.log(response)
+                    console.log(response.data);
                     setHistory(response.data);
+                }
+            })
+
+        axios.get(BACKEND_URL + '/rates' + window.location.search)
+            .then(response => {
+                if (response.status === 200) {
+                    console.log(response.data);
+                    setRating(response.data);
                 }
             })
 
@@ -41,11 +49,11 @@ const Rating = ({ id, BACKEND_URL }) => {
     ];
 
     const ratingList = () => {
-        return MOCK_USERS.map(user => (
+        return rating.map(user => (
             <SimpleCell
-                key={user.id}
-                before={<Avatar size={40} src={user.img} />}
-                after={`+ ${user.score}`}
+                key={user.user_id}
+                before={<Avatar size={40} src={''} />}
+                after={`+ ${user.total_scores}`}
             >{user.name}</SimpleCell>
         ));
     }
@@ -53,10 +61,11 @@ const Rating = ({ id, BACKEND_URL }) => {
     const historyList = () => {
         return history.map(item => (
             <RichCell
-                caption=""
+                key={item.id}
+                caption={item.user_id}
                 after={`+ ${item.score}`}
             >
-                {item.action_type}
+                {item.activity_type === 'comment' ? 'Комментарий' : 'Лайк'}
             </RichCell>
         ));
     }
@@ -64,7 +73,7 @@ const Rating = ({ id, BACKEND_URL }) => {
     return (
         <Panel id={id}>
             <PanelHeader>Общий рейтинг</PanelHeader>
-            <Group header={<Header mode="secondary">Топ 10 пользователей</Header>}>
+            <Group header={<Header mode="secondary">Топ 3 пользователей</Header>}>
                 {ratingList()}
             </Group>
 
