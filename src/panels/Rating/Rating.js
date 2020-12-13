@@ -33,9 +33,9 @@ const Rating = ({ id, BACKEND_URL }) => {
         return rating.map(user => (
             <SimpleCell
                 key={user.user_id}
-                before={<Avatar size={40} src={''} />}
+                before={<Avatar size={40} src={user.user?.photo_200} />}
                 after={`+ ${user.total_scores}`}
-            >{user.name}</SimpleCell>
+            >{user.user?.first_name} {user.user?.last_name}</SimpleCell>
         ));
     }
 
@@ -43,7 +43,7 @@ const Rating = ({ id, BACKEND_URL }) => {
         return history.map(item => (
             <RichCell
                 key={item.id}
-                caption={item.user_id}
+                caption={`${item.user?.first_name} ${item.user?.last_name}`}
                 after={`+ ${item.score}`}
             >
                 {item.activity_type === 'comment' ? 'Комментарий' : 'Лайк'}
