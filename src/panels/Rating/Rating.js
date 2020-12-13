@@ -16,7 +16,6 @@ const Rating = ({ id, BACKEND_URL }) => {
         axios.get(BACKEND_URL + '/history/group' + window.location.search)
             .then(response => {
                 if (response.status === 200) {
-                    console.log(response.data);
                     setHistory(response.data);
                 }
             })
@@ -24,29 +23,11 @@ const Rating = ({ id, BACKEND_URL }) => {
         axios.get(BACKEND_URL + '/rates' + window.location.search)
             .then(response => {
                 if (response.status === 200) {
-                    console.log(response.data);
                     setRating(response.data);
                 }
             })
 
     }, []);
-
-    const MOCK_USERS = [
-        {
-            id: 1,
-            name: 'Николай Смирнов',
-            img: '',
-            score_title: 'Лайк',
-            score: 300,
-        },
-        {
-            id: 2,
-            name: 'Василиса Заулина',
-            img: '',
-            score_title: 'Комментарий',
-            score: 500,
-        },
-    ];
 
     const ratingList = () => {
         return rating.map(user => (
