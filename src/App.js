@@ -9,7 +9,6 @@ import Icon20GearOutline from '@vkontakte/icons/dist/20/gear_outline';
 import Icon20UserOutline from '@vkontakte/icons/dist/20/user_outline';
 import Icon16DonateOultine from '@vkontakte/icons/dist/16/donate_oultine';
 import '@vkontakte/vkui/dist/vkui.css';
-import axios from 'axios';
 
 import Home from './panels/Home/';
 import Welcome from './panels/Welcome/';
@@ -51,17 +50,6 @@ const App = () => {
 				}
 			});
 		}
-		function authUser() {
-			const authData = window.location.search;
-
-			axios.get(BACKEND_URL + authData)
-				.then((response) => {
-					console.log(response);
-				})
-				.catch(err => {
-					console.error(err);
-				});
-		}
 		async function fetchData() {
 			const user = await bridge.send('VKWebAppGetUserInfo');
 			const storageData = await bridge.send('VKWebAppStorageGet', {
@@ -85,7 +73,7 @@ const App = () => {
 				}
 			});
 		}
-		authUser();
+
 		setAppTheme();
 		fetchData();
 	}, []);
@@ -146,7 +134,7 @@ const App = () => {
 						<Rating id='rating' />
 					</View>
 					<View id={ROUTES.HOME} activePanel='home'>
-						<Home id='home' fetchedUser={fetchedUser} />
+						<Home id='home' fetchedUser={fetchedUser} BACKEND_URL={BACKEND_URL} />
 					</View>
 					<View id={ROUTES.SETTINGS} activePanel='settings'>
 						<Settings id='settings' />
