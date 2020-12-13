@@ -35,15 +35,23 @@ const Settings = ({ id, ROUTES, changeView, BACKEND_URL }) => {
                 setComments(response.data.score_by_comments);
             }
         })
-    })
+    }, []);
 
     return (
         <Panel id={id}>
             <PanelHeader>Настройки</PanelHeader>
             <Group title='Общие настройки'>
                 <FormLayout>
-                    <Input value={likes} top="Кол-во баллов за лайк" onChange={(evt) => setLikes(evt.value)} />
-                    <Input value={comments} top="Кол-во баллов за репост" onChange={(evt) => setComments(evt.value)} />
+                    <Input
+                        value={likes}
+                        top="Кол-во баллов за лайк"
+                        onChange={(evt) => setLikes(evt.target.value)}
+                    />
+                    <Input
+                        value={comments}
+                        top="Кол-во баллов за репост"
+                        onChange={(evt) => setComments(evt.target.value)}
+                    />
                 </FormLayout>
                 <Div>
                     <Button size="xl" level="2" onClick={submitSettingsForm}>
