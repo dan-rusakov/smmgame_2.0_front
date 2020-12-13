@@ -98,13 +98,6 @@ const App = () => {
 				<Epic activeStory={activeView} tabbar={
 					<Tabbar>
 						<TabbarItem
-							onClick={() => changeView(ROUTES.RATING)}
-							selected={activeView === ROUTES.RATING}
-							text="Рейтинг"
-						>
-							<Icon20StatisticsOutline />
-						</TabbarItem>
-						<TabbarItem
 							onClick={() => changeView(ROUTES.HOME)}
 							selected={activeView === ROUTES.HOME}
 							text="Профиль"
