@@ -19,9 +19,11 @@ const Home = ({ id, fetchedUser, BACKEND_URL }) => {
 					setUserScore(response.data.score);
 				}
 			})
+
+		let params = new URLSearchParams(window.location.search);
 		axios.get(BACKEND_URL + '/history' + window.location.search, {
 			params: {
-				user_id: 95442188,
+				user_id: params.get('vk_user_id', 1),
 			}
 		})
 			.then(response => {
