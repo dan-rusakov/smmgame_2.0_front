@@ -131,7 +131,7 @@ const App = () => {
 						<Achievements id='achievements' />
 					</View>
 					<View id={ROUTES.RATING} activePanel='rating'>
-						<Rating id='rating' />
+						<Rating id='rating' BACKEND_URL={BACKEND_URL} />
 					</View>
 					<View id={ROUTES.HOME} activePanel='home'>
 						<Home id='home' fetchedUser={fetchedUser} BACKEND_URL={BACKEND_URL} />
